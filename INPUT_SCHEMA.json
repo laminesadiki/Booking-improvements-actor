@@ -1,0 +1,143 @@
+{
+    "title": "Booking Crawler input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "destType": {
+            "title": "Destination type",
+            "type": "string",
+            "description": "Type of the destination",
+            "default": "city",
+            "enum": [
+                "city",
+                "region"
+            ],
+            "enumTitles": [
+                "City",
+                "Region"
+            ]
+        },
+        "startUrls": {
+            "title": "Start URLs",
+            "type": "array",
+            "description": "URLs to start with instead of search query",
+            "editor": "requestListSources"
+        },
+        "sortBy": {
+            "title": "Order results by",
+            "type": "string",
+            "description": "Hotel attribute by which the results will be ordered",
+            "default": "bayesian_review_score",
+            "enum": [
+                "upsort_bh",
+                "price",
+                "closest_ski_lift_distance",
+                "class",
+                "class_asc",
+                "class_and_price",
+                "distance_from_search",
+                "bayesian_review_score"
+            ],
+            "enumTitles": [
+                "Show homes first",
+                "Price (lowest first)",
+                "Distance to nearest ski lift",
+                "Stars [5->1]",
+                "Stars [1->5]",
+                "Star rating and price",
+                "Distance from city centre",
+                "Top reviewed"
+            ]
+        },
+        "minScore": {
+            "title": "Minimum rating",
+            "type": "string",
+            "description": "Minimum rating of a hotel",
+            "editor": "textfield"
+        },
+        "checkIn": {
+            "title": "Check-in date (yyyy-mm-dd)",
+            "type": "string",
+            "description": "Check-in date",
+            "default": "",
+            "editor": "textfield"
+        },
+        "checkOut": {
+            "title": "Check-out date (yyyy-mm-dd)",
+            "type": "string",
+            "description": "Check-out date",
+            "default": "",
+            "editor": "textfield"
+        },
+        "rooms": {
+            "title": "Number of rooms",
+            "type": "integer",
+            "description": "Number of rooms for the search",
+            "default": 1,
+            "maximum": 50
+        },
+        "adults": {
+            "title": "Number of adults",
+            "type": "integer",
+            "description": "Number of adults for the search",
+            "default": 2,
+            "maximum": 50
+        },
+        "children": {
+            "title": "Number of children",
+            "type": "integer",
+            "description": "Number of children for the search",
+            "default": 0,
+            "maximum": 50
+        },
+        "currency": {
+            "title": "Preferred currency",
+            "type": "string",
+            "description": "Currency code to be set on the site",
+            "default": "EUR",
+            "enum": ["MAD","EUR","USD"],
+            "enumTitles": ["MAD - Moroccan Dirham","€ - Euro",  "US$ - U.S. dollar"]
+        },
+        "language": {
+            "title": "Language",
+            "type": "string",
+            "description": "Language code to be set on the site",
+            "default": "en-gb",
+            "enum": ["en-gb","en-us","fr","es","ar"],
+            "enumTitles": ["English (UK)","English (US)","Français","Español","العربية"]
+        },
+        "minMaxPrice": {
+            "title": "Price range",
+            "type": "string",
+            "description": "Minimum-maximum price range",
+            "default": "none",
+            "enum": ["none", "0-50", "50-100", "100-150", "150-200", "200+"],
+            "enumTitles": ["none", "0 - € 50", "€ 50 - € 100", "€ 100 - € 150", "€ 150 - € 200", "€ 200 +"]
+        },
+        "propertyType": {
+            "title": "Property type",
+            "type": "string",
+            "description": "Property type filter",
+            "default": "none",
+            "enum": ["none", "Hotels", "Apartments", "Hostels", "Guest houses", "Homestays", "Bed and breakfasts", "Holiday homes", "Boats", "Villas", "Motels", "Holiday parks", "Campsites", "Luxury tents"]
+        },
+        "proxyConfig": {
+            "title": "Proxy configuration",
+            "type": "object",
+            "description": "Optionally use Apify Proxy",
+            "prefill": { "useApifyProxy": true, "apifyProxyGroups": ["SHADER"] },
+            "editor": "proxy"
+        },
+        "testProxy": {
+            "title": "Test proxies (useful for proxy groups with many blocked IPs, experimental)",
+            "type": "boolean",
+            "description": "Before starting crawling, the crawler will try to find a proxy that's not blocked by Booking.",
+            "default": false
+        }
+    },
+    "required": [
+        "proxyConfig"
+    ]
+}
+
+
