@@ -120,8 +120,22 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
     const price = rooms.length > 0 ? rooms[0].price : null;
     const bokingId = await page.$eval("input[name='hotel_id']",el => el.getAttribute("value"));
 
+    // Add categories and 
+    let categoriesElement = document.querySelector("div[class='v2_review-scores__body v2_review-scores__body--compared_to_average']");
+
+    let categoryList = [...categoriesElement.querySelectorAll("li")]
+
+    let CategoriesList  =categoryList.map( el => {
+        let title = el.querySelector("span.c-score-bar__title").innerText;
+        let score = el.querySelector("span.c-score-bar__score").innerText;
+        return {[title] : score};
+    })
+
+    let categoriesObj = Object.assign({},...CategoriesList);
+
     return {
         //order: userData.order,
+        categoriesObj,
         id : userData.id,
         label : userData.label,
         url: addUrlParameters((await page.url()).split('?')[0], input),

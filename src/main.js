@@ -261,7 +261,7 @@ Apify.main(async () => {
 */
                 await Apify.pushData({ ...detail, ...userResult });
             }
-            else {return;} 
+            // else {return;} 
             /*
             else {
                 // Handle hotel list page.
