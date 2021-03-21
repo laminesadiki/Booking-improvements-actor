@@ -120,9 +120,9 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
     const price = rooms.length > 0 ? rooms[0].price : null;
     const bokingId = await page.$eval("input[name='hotel_id']",el => el.getAttribute("value"));
 
-    // Add categories and 
+    // Add categories Object == {title : scrore}
+    const categories = await page.evaluate(() => {
     let categoriesElement = document.querySelector("div[class='v2_review-scores__body v2_review-scores__body--compared_to_average']");
-
     let categoryList = [...categoriesElement.querySelectorAll("li")]
 
     let CategoriesList  =categoryList.map( el => {
@@ -133,9 +133,14 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
 
     let categoriesObj = Object.assign({},...CategoriesList);
 
+    return categoriesObj;
+    });
+
+    
+
     return {
         //order: userData.order,
-        categoriesObj,
+        categories,
         id : userData.id,
         label : userData.label,
         url: addUrlParameters((await page.url()).split('?')[0], input),
