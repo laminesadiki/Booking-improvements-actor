@@ -3,6 +3,12 @@
     "type": "object",
     "schemaVersion": 1,
     "properties": {
+        "googlesheetLink": {
+            "title": "Google Sheet Link",
+            "type": "string",
+            "description": "Google sheet link",
+            "editor": "textfield"
+          },
         "destType": {
             "title": "Destination type",
             "type": "string",
