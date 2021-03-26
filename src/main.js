@@ -120,6 +120,8 @@ Apify.main(async () => {
                     return {url, userData: {id : id,label: 'detail'}};
                 }).filter(req => !!req);
                 urlList.push(...extractedSources);
+                console.log("*************  urlList ********");
+                console.log(urlList);
 
             } else {
                 if (typeof request === 'string') { request = { url: request }; }
@@ -130,7 +132,12 @@ Apify.main(async () => {
 
                 request.url = addUrlParameters(request.url, input);
                 urlList.push(request);
+                console.log("*************  urlList ********");
+                console.log(urlList);
             }
+
+            console.log("*************  urlList ********");
+            console.log(urlList);
         }
 
         requestList = new Apify.RequestList({ sources: urlList });
