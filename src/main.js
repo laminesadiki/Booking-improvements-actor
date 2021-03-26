@@ -136,7 +136,10 @@ Apify.main(async () => {
         requestList = new Apify.RequestList({ sources: urlList });
         startUrl = addUrlParameters('https://www.booking.com/searchresults.html?dest_type=city&ss=paris&order=bayesian_review_score', input);
         await requestList.initialize();
-    } else {
+        console.log("*************  urlList ********");
+        console.log(urlList);
+    } 
+    else {
     return;
     }
     /*
