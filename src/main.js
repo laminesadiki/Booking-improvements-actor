@@ -109,7 +109,8 @@ Apify.main(async () => {
     
     for (let index = 0; index < rows.length; index++) {
         // let { type,id_datatourisme,id_tripadvisor:id,url_tripadvisor:urlTrip} = rows[index];
-        let { url , id } = rows[index];
+        let { url:urlSheet , id } = rows[index];
+        let url = addUrlParameters(urlSheet, input);
         // let searchType = type.trim().toLowerCase();
         sourcesList.push({url, userData: {id,label: 'detail'}});
     }
