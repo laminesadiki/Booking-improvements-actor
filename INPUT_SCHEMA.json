@@ -9,26 +9,6 @@
             "description": "Google sheet link",
             "editor": "textfield"
           },
-        "destType": {
-            "title": "Destination type",
-            "type": "string",
-            "description": "Type of the destination",
-            "default": "city",
-            "enum": [
-                "city",
-                "region"
-            ],
-            "enumTitles": [
-                "City",
-                "Region"
-            ]
-        },
-        "startUrls": {
-            "title": "Start URLs",
-            "type": "array",
-            "description": "URLs to start with instead of search query",
-            "editor": "requestListSources"
-        },
         "sortBy": {
             "title": "Order results by",
             "type": "string",
