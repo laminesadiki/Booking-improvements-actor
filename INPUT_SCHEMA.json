@@ -9,6 +9,12 @@
             "description": "Google sheet link",
             "editor": "textfield"
           },
+          "startUrls": {
+            "title": "Start URLs",
+            "type": "array",
+            "description": "URLs to start with instead of search query",
+            "editor": "hidden"
+        },
         "sortBy": {
             "title": "Order results by",
             "type": "string",

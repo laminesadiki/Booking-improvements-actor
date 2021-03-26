@@ -109,8 +109,7 @@ Apify.main(async () => {
     
     for (let index = 0; index < rows.length; index++) {
         // let { type,id_datatourisme,id_tripadvisor:id,url_tripadvisor:urlTrip} = rows[index];
-        let { url:urlSheet , id } = rows[index];
-        let url = addUrlParameters(urlSheet, input);
+        let { url , id } = rows[index];
         // let searchType = type.trim().toLowerCase();
         sourcesList.push({url, userData: {id,label: 'detail'}});
     }
@@ -269,7 +268,7 @@ Apify.main(async () => {
 
                 // Check if the page was open through working proxy.
                 const pageUrl = await page.url();
-                if (pageUrl.indexOf('label') < 0) {
+                if (!input.startUrls && pageUrl.indexOf('label') < 0) {
                     await retireBrowser(puppeteerPool, page, requestQueue, request);
                     return;
                 } 
