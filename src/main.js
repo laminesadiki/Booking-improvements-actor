@@ -53,17 +53,17 @@ Apify.main(async () => {
     Apify.events.on('migrating', () => { migrating = true; });
     
 
-    if (!input.search && !input.startUrls) {
-        throw new Error('Missing "search" or "startUrls" attribute in INPUT!');
-    } else if (input.search && input.startUrls && input.search.trim().length > 0 && input.startUrls.length > 0) {
-        throw new Error('It is not possible to use both "search" and "startUrls" attributes in INPUT!');
-    }
+    // if (!input.search && !input.startUrls) {
+    //     throw new Error('Missing "search" or "startUrls" attribute in INPUT!');
+    // } else if (input.search && input.startUrls && input.search.trim().length > 0 && input.startUrls.length > 0) {
+    //     throw new Error('It is not possible to use both "search" and "startUrls" attributes in INPUT!');
+    // }
     if (!(input.proxyConfig && input.proxyConfig.useApifyProxy)) {
         throw new Error('This actor cannot be used without Apify proxy.');
     }
-    if (input.useFilters && input.propertyType !== 'none') {
-        throw new Error('Property type and filters cannot be used at the same time.');
-    }
+    // if (input.useFilters && input.propertyType !== 'none') {
+    //     throw new Error('Property type and filters cannot be used at the same time.');
+    // }
 
     const daysInterval = checkDateGap(checkDate(input.checkIn), checkDate(input.checkOut));
 
@@ -96,7 +96,7 @@ Apify.main(async () => {
     const requestQueue = await Apify.openRequestQueue();
 
     let startUrl;
-    let requestList;
+    // let requestList;
 
     /*********   Handle Google Sheet Link             ********* */          
     const [ googlesheet ] = input.googlesheetLink.match(/.*\/spreadsheets\/d\/.*\//);
