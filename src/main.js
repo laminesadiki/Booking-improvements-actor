@@ -120,7 +120,7 @@ Apify.main(async () => {
                     return {url, userData: {id : id,label: 'detail'}};
                 }).filter(req => !!req);
                 urlList.push(...extractedSources);
-                console.log("*************  urlList ********");
+                console.log("*************  urlList 1 ********");
                 console.log(urlList);
 
             } else {
@@ -132,18 +132,18 @@ Apify.main(async () => {
 
                 request.url = addUrlParameters(request.url, input);
                 urlList.push(request);
-                console.log("*************  urlList ********");
+                console.log("*************  urlList 2 ********");
                 console.log(urlList);
             }
 
-            console.log("*************  urlList ********");
+            console.log("*************  urlList 3 ********");
             console.log(urlList);
         }
 
         requestList = new Apify.RequestList({ sources: urlList });
         startUrl = addUrlParameters('https://www.booking.com/searchresults.html?dest_type=city&ss=paris&order=bayesian_review_score', input);
         await requestList.initialize();
-        console.log("*************  urlList ********");
+        console.log("*************  urlList 4 ********");
         console.log(urlList);
     } 
     else {
