@@ -1,5 +1,6 @@
 const Apify = require('apify');
 const { USER_AGENT } = require('./consts');
+const csvToJson = require('csvtojson');
 
 const { downloadListOfUrls } = Apify.utils;
 
@@ -10,7 +11,9 @@ const {
     isFiltered, isMinMaxPriceSet, setMinMaxPrice, isPropertyTypeSet, setPropertyType, enqueueAllPages,
 } = require('./util.js');
 
-const { log } = Apify.utils;
+// const { log } = Apify.utils;
+
+const { utils: { log, requestAsBrowser, sleep } } = Apify;
 
 /** Main function */
 Apify.main(async () => {
@@ -95,60 +98,84 @@ Apify.main(async () => {
     let startUrl;
     let requestList;
 
-    if (input.startUrls) {
-        if (!Array.isArray(input.startUrls)) {
-            throw new Error('INPUT.startUrls must an array!');
-        }
+    /*********   Handle Google Sheet Link             ********* */          
+    const [ googlesheet ] = input.googlesheetLink.match(/.*\/spreadsheets\/d\/.*\//);
+    const sourceUrl = `${googlesheet}gviz/tq?tqx=out:csv`;
+    const response = await requestAsBrowser({ url: sourceUrl, encoding: 'utf8' });
 
-        const urlList = [];
-
-        // convert any inconsistencies to correct format
-        for (let i = 0; i < input.startUrls.length; i++) {
-            let request = input.startUrls[i];
-
-            if (request.requestsFromUrl) {
-                //const sourceUrlList = await downloadListOfUrls({ url: request.requestsFromUrl });
-                const { body } = await Apify.utils.requestAsBrowser({ url: request.requestsFromUrl, encoding:'utf-8' });
-                let lines = body.split('\n');
-                delete  lines[0]
-                let extractedSources = lines.map(line => {
-                    let [id, url] = line.trim().split('\t');
-                    //if (!/http(s?):\/\//g.test(url)) {
-                    if (url.indexOf('/hotel/') > -1){  
-                        url = addUrlParameters(url, input);
-                    }
-                    return {url, userData: {id : id,label: 'detail'}};
-                }).filter(req => !!req);
-                urlList.push(...extractedSources);
-                console.log("*************  urlList 1 ********");
-                console.log(urlList);
-
-            } else {
-                if (typeof request === 'string') { request = { url: request }; }
-
-                if ((!request.userData || !request.userData.label !== 'detail') && request.url.indexOf('/hotel/') > -1) {
-                    request.userData = { id:id , label: 'detail' };
-                }
-
-                request.url = addUrlParameters(request.url, input);
-                urlList.push(request);
-                console.log("*************  urlList 2 ********");
-                console.log(urlList);
-            }
-
-            console.log("*************  urlList 3 ********");
-            console.log(urlList);
-        }
-
-        requestList = new Apify.RequestList({ sources: urlList });
-        startUrl = addUrlParameters('https://www.booking.com/searchresults.html?dest_type=city&ss=paris&order=bayesian_review_score', input);
-        await requestList.initialize();
-        console.log("*************  urlList 4 ********");
-        console.log(urlList);
-    } 
-    else {
-    return;
+    const rows = await csvToJson().fromString(response.body);
+    log.info('Google sheets rows = ' + rows.length);
+    let sourcesList=[];
+    
+    for (let index = 0; index < rows.length; index++) {
+        // let { type,id_datatourisme,id_tripadvisor:id,url_tripadvisor:urlTrip} = rows[index];
+        let { url , id } = rows[index];
+        let searchType = type.trim().toLowerCase();
+        sourcesList.push({url, userData: {id,label: 'detail'}});
     }
+    let requestList = new Apify.RequestList({
+        sources: sourcesList,
+    });
+
+    console.log("**********  sourcesList ********");
+    console.log(sourcesList);
+    await requestList.initialize();
+
+
+    // if (input.startUrls) {
+    //     if (!Array.isArray(input.startUrls)) {
+    //         throw new Error('INPUT.startUrls must an array!');
+    //     }
+
+    //     const urlList = [];
+
+    //     // convert any inconsistencies to correct format
+    //     for (let i = 0; i < input.startUrls.length; i++) {
+    //         let request = input.startUrls[i];
+
+    //         if (request.requestsFromUrl) {
+    //             //const sourceUrlList = await downloadListOfUrls({ url: request.requestsFromUrl });
+    //             const { body } = await Apify.utils.requestAsBrowser({ url: request.requestsFromUrl, encoding:'utf-8' });
+    //             let lines = body.split('\n');
+    //             delete  lines[0]
+    //             let extractedSources = lines.map(line => {
+    //                 let [id, url] = line.trim().split('\t');
+    //                 //if (!/http(s?):\/\//g.test(url)) {
+    //                 if (url.indexOf('/hotel/') > -1){  
+    //                     url = addUrlParameters(url, input);
+    //                 }
+    //                 return {url, userData: {id : id,label: 'detail'}};
+    //             }).filter(req => !!req);
+    //             urlList.push(...extractedSources);
+    //             console.log("*************  urlList 1 ********");
+    //             console.log(urlList);
+
+    //         } else {
+    //             if (typeof request === 'string') { request = { url: request }; }
+
+    //             if ((!request.userData || !request.userData.label !== 'detail') && request.url.indexOf('/hotel/') > -1) {
+    //                 request.userData = { id:id , label: 'detail' };
+    //             }
+
+    //             request.url = addUrlParameters(request.url, input);
+    //             urlList.push(request);
+    //             console.log("*************  urlList 2 ********");
+    //             console.log(urlList);
+    //         }
+
+    //         console.log("*************  urlList 3 ********");
+    //         console.log(urlList);
+    //     }
+
+    //     requestList = new Apify.RequestList({ sources: urlList });
+    //     startUrl = addUrlParameters('https://www.booking.com/searchresults.html?dest_type=city&ss=paris&order=bayesian_review_score', input);
+    //     await requestList.initialize();
+    //     console.log("*************  urlList 4 ********");
+    //     console.log(urlList);
+    // } 
+    // else {
+    // return;
+    // }
     /*
         // Create startURL based on provided INPUT.
         const dType = input.destType || 'city';
