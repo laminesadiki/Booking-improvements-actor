@@ -125,7 +125,7 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
     const categories = await page.evaluate(() => {
         // try {
             let categoriesElement = document.querySelector("div[class='v2_review-scores__body v2_review-scores__body--compared_to_average']");
-
+            if(categoriesElement){
             let categoryList = [...categoriesElement.querySelectorAll("li")]
 
             let CategoriesList  =categoryList.map( el => {
@@ -137,6 +137,8 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
 
             let categoriesObj = Object.assign({},...CategoriesList)
             return categoriesObj;
+        }
+        else return {}
         // } catch (error) {
         //     return {};
         // }
