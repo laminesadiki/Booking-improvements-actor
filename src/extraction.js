@@ -123,7 +123,7 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
 
     // Add categories Object == {title : scrore}
     const categories = await page.evaluate(() => {
-        try {
+        // try {
             let categoriesElement = document.querySelector("div[class='v2_review-scores__body v2_review-scores__body--compared_to_average']");
             let categoryList = [...categoriesElement.querySelectorAll("li")]
 
@@ -136,9 +136,9 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
             let categoriesObj = Object.assign({},...CategoriesList);
 
             return categoriesObj;
-        } catch (error) {
-            return "";
-        }
+        // } catch (error) {
+        //     return {};
+        // }
     
     });
 
