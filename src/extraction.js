@@ -110,7 +110,8 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
     const starIcon = await page.$('i.bk-icon-stars');
     const starTitle = await getAttribute(starIcon, 'title');
     const stars = starTitle ? starTitle.match(/\d/) : null;
-    const loc = ld.hasMap ? ld.hasMap.match(/%7c(\d+\.\d+),(\d+\.\d+)/) : null;
+    // const loc = ld.hasMap ? ld.hasMap.match(/%7c(\d+\.\d+),(\d+\.\d+)/) : null;
+    const loc = ld.hasMap ? ld.hasMap.match(/&center=(\d+.\d+|-\d+.\d+),(\d+.\d+|-\d+.\d+)/) : null;
     const cInOut = await page.$('.av-summary-section:nth-child(1) .bui-date-range__item:nth-child(1) .bui-date__subtitle');
     const cMatch = cInOut ? (await getAttribute(cInOut, 'textContent')).match(/\d+:(\d+)/g) : null;
     const img1 = await getAttribute(await page.$('.slick-track img'), 'src');
@@ -158,7 +159,7 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
         // checkInTo: (cMatch && cMatch.length > 1) ? cMatch[1] : null,
         checkIn : input.checkIn,
         checkOut : input.checkOut,
-        location: (loc && loc.length > 2) ? { lat: loc[1], lng: loc[2] } : null,
+        location: (loc && loc.length > 2) ? { latitude: loc[1], longitude: loc[2] } : null,
         address,
         image: img1 || img2 || (img3 ? img3[1] : null),
         rooms,
