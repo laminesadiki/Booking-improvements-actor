@@ -12,8 +12,8 @@ let categoriesElement = document.querySelector("div[class='v2_review-scores__bod
 let categoryList = [...categoriesElement.querySelectorAll("li")]
 
 let CategoriesList  =categoryList.map( el => {
-    let title = el.querySelector("span.c-score-bar__title").innerText;
-    let score = el.querySelector("span.c-score-bar__score").innerText;
+    let title = el.querySelector("span.c-score-bar__title") ? el.querySelector("span.c-score-bar__title").innerText : "";
+    let score = el.querySelector("span.c-score-bar__score") ? el.querySelector("span.c-score-bar__score").innerText : "";
     return {[title] : score};
 
 })
