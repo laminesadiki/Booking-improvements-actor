@@ -126,7 +126,7 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
     let categoryList = [...categoriesElement.querySelectorAll("li")]
 
     let CategoriesList  =categoryList.map( el => {
-        let title = el.querySelector("span.c-score-bar__title").innerText;
+        let title = el.querySelector("span.c-score-bar__title").innerText.trim();
         let score = el.querySelector("span.c-score-bar__score").innerText;
         return {[title] : score};
     })
