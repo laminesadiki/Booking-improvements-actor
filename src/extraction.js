@@ -117,7 +117,8 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
     const img1 = await getAttribute(await page.$('.slick-track img'), 'src');
     const img2 = await getAttribute(await page.$('#photo_wrapper img'), 'src');
     const img3 = html.match(/large_url: '(.+)'/);
-    const bookingStars = document.querySelector("span.bui-rating");
+    // const bookingStars = document.querySelector("span.bui-rating");
+    const bookingStars = await getAttribute(await page.$('span.bui-rating'), 'aria-label');
     const rooms = await page.evaluate(extractRoomsJQuery);
     const price = rooms.length > 0 ? rooms[0].price : null;
     const bokingId = await page.$eval("input[name='hotel_id']",el => el.getAttribute("value"));
@@ -152,7 +153,8 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
         type: await getAttribute(hType, 'textContent'),
         description: descriptionText || null,
         // stars: stars ? stars[0] : null,
-        stars : bookingStars ? bookingStars.getAttribute("aria-label") : null,
+        // stars : bookingStars ? bookingStars.getAttribute("aria-label") : null,
+        stars : bookingStars,
         price,
         rating: ld.aggregateRating ? ld.aggregateRating.ratingValue : null,
         reviews: ld.aggregateRating ? ld.aggregateRating.reviewCount : null,
