@@ -111,7 +111,7 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
     const starTitle = await getAttribute(starIcon, 'title');
     const stars = starTitle ? starTitle.match(/\d/) : null;
     // const loc = ld.hasMap ? ld.hasMap.match(/%7c(\d+\.\d+),(\d+\.\d+)/) : null;
-    const loc = ld.hasMap ? ld.hasMap.match(/&center=(\d+.\d+|-\d+.\d+),(\d+.\d+|-\d+.\d+)/) : null;
+    const loc = ld.hasMap ? ld.hasMap.match(/center=(\d+.\d+|-\d+.\d+),(\d+.\d+|-\d+.\d+)/) : null;
     const cInOut = await page.$('.av-summary-section:nth-child(1) .bui-date-range__item:nth-child(1) .bui-date__subtitle');
     const cMatch = cInOut ? (await getAttribute(cInOut, 'textContent')).match(/\d+:(\d+)/g) : null;
     const img1 = await getAttribute(await page.$('.slick-track img'), 'src');
