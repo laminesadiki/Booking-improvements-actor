@@ -119,7 +119,7 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
     const img3 = html.match(/large_url: '(.+)'/);
     const rooms = await page.evaluate(extractRoomsJQuery);
     const price = rooms.length > 0 ? rooms[0].price : null;
-    const bokingId = await page.$eval("input[name='hotel_id']",el => el.getAttribute("value"));
+    const bookingId = await page.$eval("input[name='hotel_id'],input[data-model='hotel_id']",el => el.getAttribute("value"));
 
     // Add categories Object == {title : scrore}
     const categories = await page.evaluate(() => {
@@ -154,7 +154,7 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
         label : userData.label,
         url: addUrlParameters((await page.url()).split('?')[0], input),
         //Booking_id : document.querySelector("input[name='hotel_id']").getAttribute("value")
-        Booking_id : bokingId,
+        Booking_id : bookingId,
         name: nameText[nameText.length - 1].trim(),
         type: await getAttribute(hType, 'textContent'),
         description: descriptionText || null,
