@@ -110,7 +110,14 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
     const starIcon = await page.$('i.bk-icon-stars');
     const starTitle = await getAttribute(starIcon, 'title');
     const stars = starTitle ? starTitle.match(/\d/) : null;
-    const bookingStars = await getAttribute(await page.$('span.bui-rating'), 'aria-label');
+    // get BookingStars 
+    const bookingStars = await page.evaluate(() => {
+        let stars = document.querySelector("span.bui-rating");
+        if(stars){
+            return stars.getAttribute('aria-label');
+        }
+        else return ""
+    });
     // const loc = ld.hasMap ? ld.hasMap.match(/%7c(\d+\.\d+),(\d+\.\d+)/) : null;
     const loc = ld.hasMap ? ld.hasMap.match(/center=(\d+.\d+|-\d+.\d+),(\d+.\d+|-\d+.\d+)/) : null;
     const cInOut = await page.$('.av-summary-section:nth-child(1) .bui-date-range__item:nth-child(1) .bui-date__subtitle');

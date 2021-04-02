@@ -23,4 +23,4 @@ let categoriesObj = Object.assign({},...CategoriesList)
 console.log(categoriesObj);
 
 /******  Get Stars  ****** */ 
-let stars = document.querySelector("div.bui-review-score__badge").innerText.trim();
+let stars = document.querySelector("span.bui-rating").getAttribute('aria-label');
