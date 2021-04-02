@@ -129,13 +129,12 @@ Apify.main(async () => {
                 await retireBrowser(puppeteerPool, page, requestQueue, request);
                 throw new Error(`Wrong currency: ${currency}, re-enqueuing...`);
             } */
-
-            if (request.userData.label === 'detail') { // Extract data from the hotel detail page
+            const ldElem = await page.$('script[type="application/ld+json"]');
+            if (request.userData.label === 'detail' && ldElem) { // Extract data from the hotel detail page
                 // wait for necessary elements
                 try { await page.waitForSelector('.hprt-occupancy-occupancy-info'); } catch (e) { log.info('occupancy info not found'); }
 
-                const ldElem = await page.$('script[type="application/ld+json"]');
-                const ld = JSON.parse(await getAttribute(ldElem, 'textContent'));
+                const ld = JSON.parse(await getAttribute(ldElem, 'textContent'));  
                 await Apify.utils.puppeteer.injectJQuery(page);
 
                 // Check if the page was open through working proxy.
