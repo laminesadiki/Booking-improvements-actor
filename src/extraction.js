@@ -110,6 +110,7 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
     const starIcon = await page.$('i.bk-icon-stars');
     const starTitle = await getAttribute(starIcon, 'title');
     const stars = starTitle ? starTitle.match(/\d/) : null;
+    const bookingStars = await getAttribute(await page.$('span.bui-rating'), 'aria-label');
     // const loc = ld.hasMap ? ld.hasMap.match(/%7c(\d+\.\d+),(\d+\.\d+)/) : null;
     const loc = ld.hasMap ? ld.hasMap.match(/center=(\d+.\d+|-\d+.\d+),(\d+.\d+|-\d+.\d+)/) : null;
     const cInOut = await page.$('.av-summary-section:nth-child(1) .bui-date-range__item:nth-child(1) .bui-date__subtitle');
@@ -158,7 +159,8 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
         name: nameText[nameText.length - 1].trim(),
         type: await getAttribute(hType, 'textContent'),
         description: descriptionText || null,
-        stars: stars ? stars[0] : null,
+        // stars: stars ? stars[0] : null,
+        stars : bookingStars,
         price,
         rating: ld.aggregateRating ? ld.aggregateRating.ratingValue : null,
         reviews: ld.aggregateRating ? ld.aggregateRating.reviewCount : null,
