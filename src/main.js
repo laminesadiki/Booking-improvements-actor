@@ -59,7 +59,8 @@ Apify.main(async () => {
     let sourcesList=[];
     
     for (let index = 0; index < rows.length; index++) {
-        let { url , id } = rows[index];
+        let { url:urlWitoutParam , id } = rows[index];
+        let url = addUrlParameters(urlWitoutParam.split('?')[0], input)
         sourcesList.push({url, userData: {id,label: 'detail'}});
     }
     let requestList = new Apify.RequestList({
@@ -150,7 +151,7 @@ Apify.main(async () => {
 
                 // Extract the data.
                 log.info('extracting detail...');
-                const detail = await extractDetail(page, ld, input, request.userData);
+                const detail = await extractDetail(page, ld, input, request.userData,request);
                 log.info('detail extracted');
                 let userResult = {};
 

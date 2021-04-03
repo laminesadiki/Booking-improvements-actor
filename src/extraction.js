@@ -91,7 +91,7 @@ const extractRoomsJQuery = () => {
  * @param {Object} ld - JSON-LD Object extracted from the page.
  * @param {Object} input - The Actor input data object.
  */
-module.exports.extractDetail = async (page, ld, input, userData) => {
+module.exports.extractDetail = async (page, ld, input, userData,request) => {
     const addr = ld.address || null;
     let priceRange;
     try {
@@ -187,7 +187,8 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
         tagsObj : reviewsTags ? reviewsTags.tagsObj : {} ,
         id : userData.id,
         label : userData.label,
-        url: addUrlParameters((await page.url()).split('?')[0], input),
+        // url: addUrlParameters((await page.url()).split('?')[0], input),
+        url: request.url,
         //Booking_id : document.querySelector("input[name='hotel_id']").getAttribute("value")
         Booking_id : bookingId,
         name: nameText[nameText.length - 1].trim(),
