@@ -93,7 +93,7 @@ const extractRoomsJQuery = () => {
  */
 module.exports.extractDetail = async (page, ld, input, userData) => {
     const addr = ld.address || null;
-    const priceRange = ld.priceRange;
+    const priceRange = ld.priceRange.match(/à partir de (.+) pour/g)[1];
     const address = {
         full: addr.streetAddress,
         postalCode: addr.postalCode,
