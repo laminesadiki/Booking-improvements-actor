@@ -159,11 +159,14 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
             const html = document.querySelector('#b2hotelPage > script:nth-child(27').innerHTML;
             const htmlNoSlash = html.replaceAll('\\"','"');
             const listTags = htmlNoSlash.match(/fe_hotel_review_topics":(.+\}\])/)[1];
-            const tags = JSON.parse(listTags).map(el => el.category_name);
-            return tags;
+            const tagsArray = JSON.parse(listTags).map(el => el.category_name);
+            const tagsWithOccurence = JSON.parse(listTags).map(el => { return {[el.category_name]:el.total}});
+            const tagsObj = Object.assign({},...tagsWithOccurence);
+            
+            return {tagsArray,tagsObj}
 
         } catch (error) {
-            return [];
+            return {};
         }
         
     });
@@ -173,7 +176,8 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
     return {
         //order: userData.order,
         categories,
-        reviewsTags,
+        tagsArray : reviewsTags ? reviewsTags.tagsArray : [] ,
+        tagsObj : reviewsTags ? reviewsTags.tagsObj : {} ,
         id : userData.id,
         label : userData.label,
         url: addUrlParameters((await page.url()).split('?')[0], input),

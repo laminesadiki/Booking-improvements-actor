@@ -31,8 +31,11 @@ try {
     const html = document.querySelector('#b2hotelPage > script:nth-child(27').innerHTML;
     const htmlNoSlash = html.replaceAll('\\"','"');
     const listTags = htmlNoSlash.match(/fe_hotel_review_topics":(.+\}\])/)[1];
-    const tags = JSON.parse(listTags).map(el => el.category_name);
-    console.log(tags);
+    const tagsArray = JSON.parse(listTags).map(el => el.category_name);
+    const tagsWithOccurence = JSON.parse(listTags).map(el => { return {[el.category_name]:el.total}});
+    const obj = Object.assign({},...tagsWithOccurence);
+    console.log(tagsWithOccurence);
+    console.log(obj);
 
 } catch (error) {
     console.log("vide")
