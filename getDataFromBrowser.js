@@ -27,8 +27,13 @@ let stars = document.querySelector("span.bui-rating").getAttribute('aria-label')
 
 
 /************    Get ReviewsTags ******* */
-const html = document.querySelector('#b2hotelPage > script:nth-child(27').innerHTML;
-const htmlNoSlash = html.replaceAll('\\"','"');
-const listTags = htmlNoSlash.match(/fe_hotel_review_topics":(.+\}\])/)[1];
-const tags = JSON.parse(listTags).map(el => el.category_name);
-console.log(tags);
+try {
+    const html = document.querySelector('#b2hotelPage > script:nth-child(27').innerHTML;
+    const htmlNoSlash = html.replaceAll('\\"','"');
+    const listTags = htmlNoSlash.match(/fe_hotel_review_topics":(.+\}\])/)[1];
+    const tags = JSON.parse(listTags).map(el => el.category_name);
+    console.log(tags);
+
+} catch (error) {
+    console.log("vide")
+}
