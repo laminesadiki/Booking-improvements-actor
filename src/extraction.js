@@ -95,7 +95,7 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
     const addr = ld.address || null;
     let priceRange;
     try {
-        priceRange = ld.priceRange.match(/à partir de (.+) pour/g)[1];
+        priceRange = ld.priceRange.match(/partir de (.+) pour/)[1];
     } catch (error) {
         priceRange="";
     }

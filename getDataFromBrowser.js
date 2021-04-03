@@ -40,3 +40,15 @@ try {
 } catch (error) {
     console.log("vide")
 }
+
+
+/******  Get priceRange  ****** */
+const ldElem = document.querySelector('script[type="application/ld+json"]').textContent;
+const ld = JSON.parse(ldElem);
+let priceRange;
+    try {
+        priceRange = ld.priceRange.match(/à partir de (.+) pour/)[1];
+    } catch (error) {
+        priceRange="";
+    }
+console.log(priceRange);
