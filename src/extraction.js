@@ -153,11 +153,22 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
     
     });
 
+    //Add reviewsTags
+    const reviewsTags = await page.evaluate(() => {
+        const html = document.querySelector('#b2hotelPage > script:nth-child(27').innerHTML;
+        const htmlNoSlash = html.replaceAll('\\"','"');
+        const listTags = htmlNoSlash.match(/fe_hotel_review_topics":(.+\}\])/)[1];
+        const tags = JSON.parse(listTags).map(el => el.category_name);
+
+        return tags;
+    });
+
     
 
     return {
         //order: userData.order,
         categories,
+        reviewsTags,
         id : userData.id,
         label : userData.label,
         url: addUrlParameters((await page.url()).split('?')[0], input),
