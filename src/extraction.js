@@ -93,8 +93,9 @@ const extractRoomsJQuery = () => {
  */
 module.exports.extractDetail = async (page, ld, input, userData) => {
     const addr = ld.address || null;
+    let priceRange;
     try {
-        let priceRange = ld.priceRange.match(/à partir de (.+) pour/g)[1];
+        priceRange = ld.priceRange.match(/à partir de (.+) pour/g)[1];
     } catch (error) {
         priceRange="";
     }
