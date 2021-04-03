@@ -1,5 +1,5 @@
-# Version 2 of Booking-improvements Actor
+# Version 2.5 of Booking-improvements Actor
 
 in this version , we will add and fix the following things :
-* add Reviews Tags in the output
+* add and fix price in the output
 

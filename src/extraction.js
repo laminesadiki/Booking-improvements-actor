@@ -93,6 +93,7 @@ const extractRoomsJQuery = () => {
  */
 module.exports.extractDetail = async (page, ld, input, userData) => {
     const addr = ld.address || null;
+    const priceRange = ld.priceRange;
     const address = {
         full: addr.streetAddress,
         postalCode: addr.postalCode,
@@ -188,7 +189,7 @@ module.exports.extractDetail = async (page, ld, input, userData) => {
         description: descriptionText || null,
         // stars: stars ? stars[0] : null,
         stars : bookingStars,
-        price,
+        price : priceRange,
         rating: ld.aggregateRating ? ld.aggregateRating.ratingValue : null,
         reviews: ld.aggregateRating ? ld.aggregateRating.reviewCount : null,
         breakfast: await getAttribute(bFast, 'textContent'),
