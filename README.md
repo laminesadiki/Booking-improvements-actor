@@ -2,6 +2,5 @@
 
 in this version , we will add and fix the following things :
 * fix url and add parameters to each url
-* test test 1 2 3.
-* tali sa3do 3ali
+
 
