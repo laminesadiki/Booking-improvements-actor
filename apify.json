@@ -1,7 +1,7 @@
 {
-	"name": "booking-scraper-with-id-2",
+	"name": "booking-improvements-actor",
 	"template": "puppeteer_crawler",
-	"version": "0.1",
+	"version": "3.0",
 	"buildTag": "latest",
 	"env": {
         "APIFY_LOG_LEVEL": "DEBUG"
